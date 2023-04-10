@@ -114,7 +114,39 @@ window.addEventListener('mousemove', (event) =>
 
 })
 
+const speak = function(string){
+var array = string.split('');
+for(let i=0; i<array.length; i++){
+    var letter = array[i].toLowerCase()
+    switch (letter) {
+        case 'a':case "e": case "i":
+            
+          console.log('Oranges are $0.59 a pound.');
+          break;
+        case 'b':case 'm':case'p':
+         console.log('Oranges are $0.59 a pound.');
+          break;
+        case 'f':case'v':
+          console.log('Mangoes and papayas are $2.79 a pound.');
+          break;
+        case "i":
+          console.log('Mangoes and papayas are $2.79 a pound.');
+          break;
 
+        case "0":
+        console.log('Mangoes and papayas are $2.79 a pound.');
+        break;
+        case "c":case "h":case "c":case "d":case "q":case "k":case "t":case "x":case "y":case "n":
+        console.log('Mangoes and papayas are $2.79 a pound.');
+        break;
+        default:
+          console.log(`Sorry, we are out of ${expr}.`);
+      }
+      
+}
+
+
+}
 
 const gltfLoader = new GLTFLoader()
 
