@@ -6,7 +6,21 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { LoopOnce, SphereGeometry, TextureLoader } from 'three'
 import CANNON, { Sphere } from 'cannon'
+// const gTTS = require('gtts');
+// import gTTs from 'gtts'
+// console.log(gTTS)
 import $ from "./Jquery"
+
+
+
+    // say.speak('Hello my dear', 'Microsoft Zira Desktop')
+    // say.export("I'm sorry, Dave.", 'Microsoft Zira Desktop', 0.75, 'hal.wav', (err) => {
+    //   if (err) {
+    //     return console.error(err)
+    //   }
+    
+    //   console.log('Text has been saved to hal.wav.')
+    // })
 
 
 let selectedObject
@@ -75,7 +89,7 @@ let hertalk4
 let hertalk5
 let hertalk6
 let hertalk7
-
+let speakTruth;
 let herModel
 let herDots
 let herDots2
@@ -96,10 +110,25 @@ const blockmaterial = new THREE.MeshBasicMaterial()
 
 
 
+
 const mouse = new THREE.Vector2()
 mouse.x = null
 mouse.y=null
 mouse.y2 = null
+
+const speakSound = function(){
+    fetch('/spoken.wav') .then(response => {
+    console.log(response);
+    response.blob()
+}) 
+ .then(blob => { const url = URL.createObjectURL(blob);
+    console.log(url) 
+    const audio = new Audio(url); 
+    console.log(audio)
+    audio.play(); }) 
+    .catch(error => { console.error('Error fetching audio file:', error); })
+
+}
 
 window.addEventListener('mousemove', (event) =>
 
@@ -114,39 +143,7 @@ window.addEventListener('mousemove', (event) =>
 
 })
 
-const speak = function(string){
-var array = string.split('');
-for(let i=0; i<array.length; i++){
-    var letter = array[i].toLowerCase()
-    switch (letter) {
-        case 'a':case "e": case "i":
-            
-          console.log('Oranges are $0.59 a pound.');
-          break;
-        case 'b':case 'm':case'p':
-         console.log('Oranges are $0.59 a pound.');
-          break;
-        case 'f':case'v':
-          console.log('Mangoes and papayas are $2.79 a pound.');
-          break;
-        case "i":
-          console.log('Mangoes and papayas are $2.79 a pound.');
-          break;
 
-        case "0":
-        console.log('Mangoes and papayas are $2.79 a pound.');
-        break;
-        case "c":case "h":case "c":case "d":case "q":case "k":case "t":case "x":case "y":case "n":
-        console.log('Mangoes and papayas are $2.79 a pound.');
-        break;
-        default:
-          console.log(`Sorry, we are out of ${expr}.`);
-      }
-      
-}
-
-
-}
 
 const gltfLoader = new GLTFLoader()
 
@@ -193,50 +190,107 @@ gltfLoader.load(
         hertalk7.setLoop( THREE.LoopRepeat ,1 );
 
         
-        hertalk.play()
-        setTimeout(() => {
-            hertalk2.play()
-            setTimeout(() => {
-                hertalk6.play()
-                setTimeout(() => {
-                    hertalk4.play()
-                    setTimeout(() => {
-                        hertalk6.play()
-                        setTimeout(() => {
-                            hertalk5.play()
-                            setTimeout(() => {
-                                hertalk7.play()
-                                setTimeout(() => {
-                                    hertalk3.play()
-                                    
-                                }, 200);
-                                
-                            }, 200);
-                            
-                        }, 200);
-                        
-                    }, 200);
 
-                    
-                }, 200);
-                
-            }, 200);
+
+speakTruth = function(string){
+    console.log("speaktruth")
+console.log(string)
+var array = string.split('');
+
+
+console.log(array)
+for(let i=0; i<array.length; i++){
+    var letter = array[i].toLowerCase()
+    switch (letter) {
+        case 'a':case "e": case "i":
             
-        }, 200);
-        // hertalk2.play()
-        // hertalk4.play()
-        // hertalk5.play()
-        // hertalk6.play()
-        // hertalk.play()
+              setTimeout(() => {
+                console.log(hertalk)
+                  
+                                    hertalk.play()
+                                    setTimeout(() => {
+                                      hertalk.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+          break;
+        case 'b':case 'm':case'p':
+           setTimeout(() => {
+            console.log(hertalk2)
+            
+                                    hertalk2.play()
+                                    setTimeout(() => {
+                                      hertalk2.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+          break;
+        case 'f':case'v':
+            setTimeout(() => {
+                            console.log(hertalk3)
+                     
 
-        // her.scale.set(5, 5, 5);
-        // her.rotation.y= Math.PI;
-        // her.rotation.x= Math.PI*.43;
+                                    hertalk3.play()
+                                    setTimeout(() => {
+                                      hertalk3.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+          break;
+        case "i":
+            setTimeout(() => {
+                            console.log(hertalk4)
+           
+                                    hertalk4.play()
+                                    setTimeout(() => {
+                                      hertalk4.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+          break;
+
+        case "0":
+          setTimeout(() => {
+                        console.log(hertalk5)
+                
+
+                                    hertalk5.play()
+                                    setTimeout(() => {
+                                      hertalk5.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+        break;
+        case "c":case "h":case "c":case "d":case "q":case "k":case "t":case "x":case "y":case "n":
+          setTimeout(() => {
+                        console.log(hertalk6)
+              
+
+                                    hertalk6.play()
+                                    setTimeout(() => {
+                                      hertalk6.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+        break;
+        default:
+            setTimeout(() => {
+                            console.log(hertalk7)
+                 
+
+                                    hertalk7.play()
+                                    setTimeout(() => {
+                                      hertalk7.reset()  
+                                    }, 200);
+                                    
+                                    
+                                }, 200*i);
+      }
+      
+}
 
 
-        // scene.add(her);
-
-
+}
 
 
         her.traverse((child)=>{
@@ -507,3 +561,56 @@ const tick = () =>
 }
 
 tick()
+
+
+const chatLog = document.getElementById("chat-log")
+        console.log(chatLog)
+        const message = document.getElementById("message")
+        console.log(message)
+        const form = document.querySelector("form")
+        form.addEventListener('submit', (e)=>{
+            console.log("submit")
+            e.preventDefault();
+            const messageText = message.value;
+            const newMessage = {
+                "role": "user", content : messageText
+            }
+            message.value = '';
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+            messageElement.classList.add("message--sent");
+            messageElement.innerHTML = '<div class="message__text">' + messageText + '</div>';
+
+             fetch("http://localhost:3030/", {
+                method: "POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+
+                body: JSON.stringify({
+                    messageText
+                })
+            })
+            // .then(res =>console.log(res))
+            .then(data=>{
+                // console.log(data)
+                // console.log(data.body)
+                // speakSound()
+
+    return(data.blob())
+}) 
+ .then(blob => { const url = URL.createObjectURL(blob);
+    console.log(url) 
+    const audio = new Audio(url); 
+    
+       speakTruth(messageText)
+       console.log("messageText")
+    console.log(audio)
+    audio.play(); }) 
+    .catch(error => { console.error('Error fetching audio file:', error); })
+
+})
+                // speakSound()
+             
+
+
