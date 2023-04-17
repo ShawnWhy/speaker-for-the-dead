@@ -34,7 +34,8 @@ app.post("/", async(req,res)=>{
 const messages = req.body;
 console.log(req.body);
 console.log(messages.messageText)
-const filename = `${messages.messageText}.wav`; say.export(messages.messageText, 'Microsoft Zira Desktop', 1, filename, 
+let length = messages.messageText.length
+const filename = `${messages.messageText}.wav`; say.export(messages.messageText, 'Microsoft Zira Desktop', .5, filename, 
 (err) => { if (err) { console.error('Error generating audio file:', err); 
 res.status(500).send('Error generating audio file'); } 
 else { 

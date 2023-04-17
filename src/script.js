@@ -22,7 +22,8 @@ import $ from "./Jquery"
     //   console.log('Text has been saved to hal.wav.')
     // })
 
-
+let transformHeight = 2
+let transformDepth = 2
 let selectedObject
 let selectedModel
 let selectedDot
@@ -202,7 +203,7 @@ console.log(array)
 for(let i=0; i<array.length; i++){
     var letter = array[i].toLowerCase()
     switch (letter) {
-        case 'a':case "e": case "i":
+        case 'a':case "e":
             
               setTimeout(() => {
                 console.log(hertalk)
@@ -227,32 +228,44 @@ for(let i=0; i<array.length; i++){
           break;
         case 'f':case'v':
             setTimeout(() => {
-                            console.log(hertalk3)
+                            console.log(hertalk2)
                      
 
-                                    hertalk3.play()
+                                    hertalk2.play()
                                     setTimeout(() => {
-                                      hertalk3.reset()  
+                                      hertalk2.reset()  
                                     }, 200);
                                     
                                 }, 200*i);
           break;
         case "i":
             setTimeout(() => {
-                            console.log(hertalk4)
+                            console.log(hertalk)
            
-                                    hertalk4.play()
+                                    hertalk.play()
                                     setTimeout(() => {
-                                      hertalk4.reset()  
+                                      hertalk.reset()  
                                     }, 200);
                                     
                                 }, 200*i);
           break;
 
-        case "0":
+        case "o":
+          setTimeout(() => {
+                        console.log(hertalk7)
+                
+
+                                    hertalk7.play()
+                                    setTimeout(() => {
+                                      hertalk7.reset()  
+                                    }, 200);
+                                    
+                                }, 200*i);
+        break;
+        case "c":case "h":case "c":case "d":case "q":case "k":case "t":case "x":case "y":case "n":
           setTimeout(() => {
                         console.log(hertalk5)
-                
+              
 
                                     hertalk5.play()
                                     setTimeout(() => {
@@ -261,26 +274,14 @@ for(let i=0; i<array.length; i++){
                                     
                                 }, 200*i);
         break;
-        case "c":case "h":case "c":case "d":case "q":case "k":case "t":case "x":case "y":case "n":
-          setTimeout(() => {
-                        console.log(hertalk6)
-              
-
-                                    hertalk6.play()
-                                    setTimeout(() => {
-                                      hertalk6.reset()  
-                                    }, 200);
-                                    
-                                }, 200*i);
-        break;
         default:
             setTimeout(() => {
-                            console.log(hertalk7)
+                            console.log(hertalk4)
                  
 
-                                    hertalk7.play()
+                                    hertalk4.play()
                                     setTimeout(() => {
-                                      hertalk7.reset()  
+                                      hertalk4.reset()  
                                     }, 200);
                                     
                                     
@@ -323,7 +324,12 @@ gltfLoader.load(
         
     }
 )
-
+let colorOutside
+let colorInside
+let colorHeight = 0
+let herDotCoordinates;
+let herDotColors
+let herDotsGeometry
 gltfLoader.load(
     '/her.glb',
     (gltf) =>
@@ -331,17 +337,12 @@ gltfLoader.load(
         let her = gltf.scene;
 
         console.log(her)
-        // her.quaternion.set(0,0,0)
-        // her.rotation.set(0,0,0)
+       
         
-        let herDotCoordinates = her.children[0].children[4].geometry.attributes.position.array;
-
-        // let herDotCoordinates2 = her.children[0].children[4].children[0].geometry.attributes.position.array;
-
-        //createherdots 
-        const herDotColors = new Float32Array(herDotCoordinates.length * 3)
-        const colorInside = new THREE.Color('blue')
-        const colorOutside = new THREE.Color('blue')
+         herDotCoordinates = her.children[0].children[4].geometry.attributes.position.array;
+        herDotColors = new Float32Array(herDotCoordinates.length * 3)
+        colorInside = new THREE.Color('blue')
+        colorOutside = new THREE.Color('purple')
         const colorInside2 = new THREE.Color('green')
         const colorOutside2 = new THREE.Color('yellow')
 
@@ -349,7 +350,7 @@ gltfLoader.load(
     {
     const i3 = i * 3
     const mixedColor = colorInside.clone()  
-    mixedColor.lerp(colorOutside, her.children[0].children[4].geometry.attributes.position.array[i3+1]/2+.5)
+    mixedColor.lerp(colorOutside, her.children[0].children[4].geometry.attributes.position.array[i3+1]/2+.8)    
     herDotColors[i3    ] = mixedColor.r
     herDotColors[i3 + 1] = mixedColor.g
     herDotColors[i3 + 2] = mixedColor.b
@@ -358,7 +359,7 @@ gltfLoader.load(
     let pixleMaterial = new THREE.PointsMaterial({
         // color:"red",
         fog:true,
-        size:.1,
+        size:.2,
         depthWrite: true,
         blending: THREE.AdditiveBlending,
         vertexColors: true,
@@ -374,7 +375,7 @@ gltfLoader.load(
 
 
 
-    let herDotsGeometry = new THREE.BufferGeometry;
+    herDotsGeometry = new THREE.BufferGeometry;
         
     herDotsGeometry.setAttribute(
         'position',
@@ -387,9 +388,9 @@ gltfLoader.load(
 
     herDots = new THREE.Points(herDotsGeometry, pixleMaterial)
         
-    herDots.scale.set(3,3,3)
-    herDots.rotation.set(Math.PI*.43, Math.PI, 0)
-    herDots.position.set(0,13,-3.9)
+    herDots.scale.set(5,5,5)
+    herDots.rotation.set(Math.PI*.60, Math.PI, 0)
+    herDots.position.set(0,13,5)
     
     selectedDot = herDots
     selectChildIndex = 1
@@ -405,19 +406,19 @@ gltfLoader.load(
 
 
 
-const ambientLight = new THREE.AmbientLight('orange', .5)
-scene.add(ambientLight)
+// const ambientLight = new THREE.AmbientLight('orange', .5)
+// scene.add(ambientLight)
 
-const directionalLight = new THREE.DirectionalLight('#F5F5DC', 2)
-directionalLight.castShadow = true
-directionalLight.shadow.mapSize.set(1024, 1024)
-directionalLight.shadow.camera.far = 15
-directionalLight.shadow.camera.left = - 7
-directionalLight.shadow.camera.top = 7
-directionalLight.shadow.camera.right = 7
-directionalLight.shadow.camera.bottom = - 7
-directionalLight.position.set(- 5, 5, 3)
-scene.add(directionalLight)
+// const directionalLight = new THREE.DirectionalLight('#F5F5DC', 2)
+// directionalLight.castShadow = true
+// directionalLight.shadow.mapSize.set(1024, 1024)
+// directionalLight.shadow.camera.far = 15
+// directionalLight.shadow.camera.left = - 7
+// directionalLight.shadow.camera.top = 7
+// directionalLight.shadow.camera.right = 7
+// directionalLight.shadow.camera.bottom = - 7
+// directionalLight.position.set(- 5, 5, 3)
+// scene.add(directionalLight)
 
 /**
  * Camera
@@ -425,7 +426,7 @@ scene.add(directionalLight)
 // Base camera
 const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 1000)
 if(sizes.width>860){
-camera.position.set(0, 0, 60)
+camera.position.set(0, 10, 50)
 }
 else{
     camera.position.set(0, 0,20)
@@ -475,7 +476,7 @@ var transformedSkinVertex = function (skin, index) {
     return result.applyMatrix4 (skin.bindMatrixInverse);
 };
 
-function controlVerts(dots, object){
+function controlVerts(dots, object, transformHeight, transformDepth){
 
     // console.log("controlverts")
     // console.log(dots)
@@ -486,6 +487,21 @@ if(dots.geometry.attributes.position.array){
     
 for(let i=0; i<dots.geometry.attributes.position.array.length/3; i++){
 
+
+    
+
+if(  dots.geometry.attributes.position.getZ(i)<transformHeight && dots.geometry.attributes.position.getZ(i)>-2.5 && dots.geometry.attributes.position.getY(i)>=transformDepth){
+
+ herDots.geometry.attributes.position.setY(i,herDots.geometry.attributes.position.getY(i)-.05)
+  
+        
+//  )
+    //    herDots.geometry.attributes.position.needsUpdate = true;
+
+    // }
+}
+else{
+
     let vert = transformedSkinVertex(object, i)
     // console.log(vert)
 
@@ -494,9 +510,9 @@ for(let i=0; i<dots.geometry.attributes.position.array.length/3; i++){
     dots.geometry.attributes.position.setX(i,vert.x)
     dots.geometry.attributes.position.setZ(i,vert.z)
 
-
+}
     
-   const mergedGeometry = new THREE.BufferGeometry()
+//    const mergedGeometry = new THREE.BufferGeometry()
 // for ( let i = 0 ; i < 25 ; i ++ ) {
 //    const nodeGeometry = geom.clone()
 //    nodeGeometry.translate(random(),random(),random())
@@ -527,13 +543,52 @@ const tick = () =>
 
 // console.log(mouse.x)
     
+    colorHeight +=.05;
+    if(colorHeight >= 4){
+        colorHeight= -2;
+    }    
+    
+      transformDepth -=.011;
+    if(transformDepth <=-2.55){
+        transformDepth= 2;
+    }  
 
-        
+    transformHeight -=.011;
+    if(transformHeight <=-2.55){
+        transformHeight= 2;
+    }    
         
 
     if(her && herDots){
 
-      controlVerts(selectedDot, selectedObject)
+
+    if(herDotCoordinates){
+
+    for(let i = 0; i < herDotCoordinates.length; i++)
+    {
+    const i3 = i * 3
+    const mixedColor = colorInside.clone()  
+    mixedColor.lerp(colorOutside, her.children[0].children[4].geometry.attributes.position.array[i3+1] + colorHeight)    
+    herDotColors[i3    ] = mixedColor.r
+    herDotColors[i3 + 1] = mixedColor.g
+    herDotColors[i3 + 2] = mixedColor.b
+    }   
+
+
+        herDotsGeometry.setAttribute(
+        'color',
+        new THREE.BufferAttribute(herDotColors,3)
+    )
+
+    }
+
+          
+
+
+
+
+      controlVerts(selectedDot, selectedObject,transformHeight, transformDepth)
+
 
       her.children[0].children[4].geometry.attributes.position.needsUpdate = true;
 
@@ -544,8 +599,6 @@ const tick = () =>
         }
 
       
-        // herDots2.geometry.attributes.position.needsUpdate = true;
-
    
     if(herMixer)
     {
